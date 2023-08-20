@@ -30,202 +30,147 @@ namespace FiguresLib.Tests
         public void ZeroCircle()
         {
             var radius = 0;
-            var circle = new Circle(radius);
-
-            var factSquare = circle.GetSquare();
-            var expectSquare = 0;
-
-            var factParimeter = circle.GetPerimeter();
-            var expectPerimeter = 0;
-
-            Assert.Equal(expectSquare, factSquare);
-            Assert.Equal(expectPerimeter, factParimeter);
+            Assert.Throws<ArgumentException>(() => new Circle(radius));
         }
         #endregion
 
         #region triangle tests
+        private void CheckTriangle(
+            Triangle triangle,
+            double a,
+            double b,
+            double c,
+            double bcAngle,
+            double acAngle,
+            double abAngle,
+            double square,
+            double perimeter,
+            bool isRight)
+        {
+            Assert.InRange(a - triangle.a, -0.1, 0.1);
+            Assert.InRange(b - triangle.b, -0.1, 0.1);
+            Assert.InRange(c - triangle.c, -0.1, 0.1);
+            Assert.InRange(bcAngle - triangle.bcAngle, -0.1, 0.1);
+            Assert.InRange(acAngle - triangle.acAngle, -0.1, 0.1);
+            Assert.InRange(abAngle - triangle.abAngle, -0.1, 0.1);
+            Assert.InRange(square - triangle.GetSquare(), -0.1, 0.1);
+            Assert.InRange(perimeter - triangle.GetPerimeter(), -0.1, 0.1);
+            Assert.Equal(isRight, triangle.IsRight());
+        }
+
         [Fact]
-        public void ThreeSidesRightTriangle()
+        public void SimpleTriangle()
         {
             var a = 6;
-            var b = 10;
-            var c = 8;
+            var b = 9;
+            var c = 11;
+
+            var bcAngle = 0.576;
+            var acAngle = 0.957;
+            var abAngle = 1.608;
+
+            var expectedSquare = 26.981;
+            var expectedPerimeter = a + b + c;
+            var isRight = false;
 
             var triangle = new Triangle(a, b, c);
-
-            var factSquare = triangle.GetSquare();
-            var expectSquare = a * c / 2.0;
-
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = a + b + c;
-
-            Assert.Equal(expectSquare, factSquare);
-            Assert.Equal(expectPerimeter, factPerimeter);
-
-            Assert.True(triangle.isRight());
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByOneSideTwoAngles(a, abAngle, acAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
 
         [Fact]
-        public void ThreeSidesSimpleTriangle()
+        public void RightTriangle()
         {
-            var a = 18;
-            var b = 3;
-            var c = 20;
+            var a = 9;
+            var b = 15;
+            var c = 12;
+
+            var bcAngle = 0.644;
+            var acAngle = 1.571;
+            var abAngle = 0.927;
+
+            var expectedSquare = 54;
+            var expectedPerimeter = a + b + c;
+            var isRight = true;
 
             var triangle = new Triangle(a, b, c);
-
-            var factSquare = Math.Round(triangle.GetSquare(), 2);
-            var expectSquare = 21.18;
-
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = a + b + c;
-
-            Assert.Equal(expectSquare, factSquare);
-            Assert.Equal(expectPerimeter, factPerimeter);
-
-            Assert.False(triangle.isRight());
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByOneSideTwoAngles(a, abAngle, acAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
 
         [Fact]
-        public void ThreeSidesIncorrectTriangle()
+        public void IsoscelesTriangle()
         {
-            var a = 5;
-            var b = 30;
-            var c = 41;
+            var a = 21;
+            var b = 21;
+            var c = 5;
 
-            Assert.Throws<ArgumentException>(() => new Triangle(a, b, c));
+            var bcAngle = 1.451;
+            var acAngle = 1.451;
+            var abAngle = 0.239;
+
+            var expectedSquare = 52.127;
+            var expectedPerimeter = a + b + c;
+            var isRight = false;
+
+            var triangle = new Triangle(a, b, c);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByOneSideTwoAngles(a, abAngle, acAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
 
         [Fact]
-        public void TwoSidesIncorrectTriangle()
+        public void RightIsoscelesTriangle()
         {
-            var a = 5;
-            var b = 30;
+            var a = 14;
+            var b = 14;
+            var c = 19.799;
 
-            Assert.Throws<ArgumentException>(() => new Triangle(a, b, null));
+            var bcAngle = 0.785;
+            var acAngle = 0.785;
+            var abAngle = 1.571;
+
+            var expectedSquare = 98;
+            var expectedPerimeter = a + b + c;
+            var isRight = true;
+
+            var triangle = new Triangle(a, b, c);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByOneSideTwoAngles(a, abAngle, acAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
 
         [Fact]
-        public void TwoSidesOneAngleRightTriangle()
+        public void EquilateralTriangle()
         {
-            var a = 6;
-            var b = 8;
-            var expectC = 10;
-            var abAngle = 90 * Math.PI / 180;
+            var a = 7;
+            var b = 7;
+            var c = 7;
 
-            var triangle = new Triangle(a, b, null, abAngle);
+            var bcAngle = 1.047;
+            var acAngle = 1.047;
+            var abAngle = 1.047;
 
-            var factSquare = triangle.GetSquare();
-            var expectSquare = a * b / 2.0;
+            var expectedSquare = 21.218;
+            var expectedPerimeter = a + b + c;
+            var isRight = false;
 
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = a + b + expectC;
-
-            Assert.Equal(expectSquare, factSquare);
-            Assert.Equal(expectPerimeter, factPerimeter);
-            Assert.Equal(expectC, triangle.c);
-
-            Assert.True(triangle.isRight());
-        }
-
-        [Fact]
-        public void TwoSidesOneAngleSimpleTriangle()
-        {
-            var b = 19;
-            var c = 19;
-            var expectA = 6.5;
-
-            var bcAngle = 19.7 * Math.PI / 180;
-
-            var triangle = new Triangle(null, b, c, null, null, bcAngle);
-
-            var factSquare = Math.Round(triangle.GetSquare(), 2);
-            var expectSquare = 60.84;
-
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = b+c+expectA;
-
-            Assert.Equal(expectSquare, factSquare);
-            Assert.Equal(expectPerimeter, factPerimeter);
-            Assert.Equal(expectA, triangle.a);
-
-            Assert.False(triangle.isRight());
-        }
-
-        [Fact]
-        public void TwoSidesOneTrickyAngleRightTriangle()
-        {
-            var a = 19;
-            var b = 19;
-            var expectC = 26.87;
-            
-            var abAngle = 270 * Math.PI / 180; // 90 Градусов
-
-            var triangle = new Triangle(a, b, null, abAngle);
-
-            var factSquare = triangle.GetSquare();
-            var expectSquare = 180.5;
-
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = a + b + expectC;
-
-            Assert.InRange(factSquare, expectSquare - 0.01, expectSquare + 0.01);
-            Assert.InRange(factPerimeter, expectPerimeter - 0.01, expectPerimeter + 0.01);
-            Assert.InRange(triangle.c, expectC - 0.01, expectC + 0.01);
-
-            Assert.True(triangle.isRight());
-        }
-
-        [Fact]
-        public void OneSideTwoAnglesTriangle()
-        {
-            var a = 15;
-            var expectB = 9.53;
-            var expectC = 17.49;
-
-            var abAngle = 88 * Math.PI / 180;
-            var acAngle = 33 * Math.PI / 180;
-
-            var triangle = new Triangle(a, null, null, abAngle, acAngle);
-
-            var factSquare = triangle.GetSquare();
-            var expectSquare = 71.44;
-
-            var factPerimeter = triangle.GetPerimeter();
-            var expectPerimeter = a + expectB + expectC;
-
-            Assert.InRange(factSquare, expectSquare - 0.01, expectSquare + 0.01);
-            Assert.InRange(factPerimeter, expectPerimeter - 0.01, expectPerimeter + 0.01);
-            Assert.InRange(triangle.b, expectB - 0.01, expectB + 0.01);
-            Assert.InRange(triangle.c, expectC - 0.01, expectC + 0.01);
-
-            Assert.False(triangle.isRight());
-        }
-
-        [Fact]
-        public void ConflicTriangle1()
-        {
-            var a = 4;
-            var b = 4;
-            var c = 4;
-
-            var abAngle = 90 * Math.PI / 180;
-
-            Assert.Throws<ArgumentException>(() => new Triangle(a, b, c, abAngle));
-        }
-
-        [Fact]
-        public void ConflicTriangle2()
-        {
-            var a = 4;
-            var b = 1;
-            var c = 4;
-
-            var abAngle = 90 * Math.PI / 180;
-            var bcAngle = 45 * Math.PI / 180;
-            var acAngle = 45 * Math.PI / 180;
-
-            Assert.Throws<ArgumentException>(() => new Triangle(a, b, c, abAngle, acAngle, bcAngle));
+            var triangle = new Triangle(a, b, c);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByOneSideTwoAngles(a, abAngle, acAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
+            triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
+            CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
         #endregion
     }

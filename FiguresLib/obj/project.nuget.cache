@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "x0iM3VxxFfok0uoqH0ssE6n/u2ojxd+CekSmmeXMr35xAXSPOtupI3WfGYJpdybFwsXr+uoe95fx/lwuSfjoYQ==",
+  "dgSpecHash": "/7BfYpQ3fuK/3ObSqECt76IBSHFZbhrmmohpfK/XthPCC2p2E29JWKEqMcZ2u4rF7syIACRW+IT+qac0AVh/ng==",
   "success": true,
-  "projectFilePath": "D:\\Initiative projects\\FiguresLib\\FiguresLib\\FiguresLib.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\not only C# projects\\Тестовое задание MindBox\\FiguresLib\\FiguresLib\\FiguresLib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Стас\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.14\\microsoft.windowsdesktop.app.ref.6.0.14.nupkg.sha512",
+    "C:\\Users\\Стас\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.14\\microsoft.netcore.app.ref.6.0.14.nupkg.sha512",
+    "C:\\Users\\Стас\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.14\\microsoft.aspnetcore.app.ref.6.0.14.nupkg.sha512"
+  ],
   "logs": []
 }

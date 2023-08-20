@@ -10,8 +10,8 @@
         /// <param name="radius">Радиус</param>
         public Circle(double radius)
         {
-            if (radius < 0)
-                throw new ArgumentException("Радиус не может быть меньше нуля!");
+            if (radius <= 0)
+                throw new ArgumentException("Circle is not exists!");
 
             this.radius = radius;
         }

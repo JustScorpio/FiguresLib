@@ -1,0 +1,6 @@
+SELECT 
+	product.name,
+	category.name
+FROM product
+FULL JOIN product_category on product.id = product_category.product_id
+LEFT JOIN category on product_category.category_id = category.id

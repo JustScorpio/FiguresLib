@@ -172,6 +172,50 @@ namespace FiguresLib.Tests
             triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle);
             CheckTriangle(triangle, a, b, c, bcAngle, acAngle, abAngle, expectedSquare, expectedPerimeter, isRight);
         }
+
+        [Fact]
+        public void TooWideAngleTriangle()
+        {
+            var a = 6;
+            var b = 9;
+            var c = 11;
+
+            var bcAngle = 0.576;
+            var acAngle = 0.957;
+            var abAngle = 1.608;
+
+            var bcAngleWide = bcAngle + Math.PI;
+            var acAngleWide = acAngle + 2 * Math.PI;
+
+            var expectedSquare = 26.981;
+            var expectedPerimeter = a + b + c;
+            var isRight = false;
+
+            //”глы шире 180 градусов 
+            var triangle = Triangle.CreateByOneSideTwoAngles(c, acAngleWide, bcAngleWide);
+            CheckTriangle(triangle, c, a, b, abAngle, bcAngle, acAngle, expectedSquare, expectedPerimeter, isRight);
+        }
+
+        [Fact]
+        public void IncorrectSidesTriangle()
+        {
+            var a = 20;
+            var b = 9;
+            var c = 11;
+
+            Assert.Throws<ArgumentException>(() => { var triangle = new Triangle(a, b, c); });
+        }
+
+        [Fact]
+        public void IncorrectAngleTriangle()
+        {
+            var a = 20;
+            var b = 9;
+
+            var abAngle = -1.5;
+
+            Assert.Throws<ArgumentException>(() => { var triangle = Triangle.CreateByTwoSidesOneAngle(a, b, abAngle); });
+        }
         #endregion
     }
 }

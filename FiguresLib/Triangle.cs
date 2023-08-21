@@ -44,7 +44,7 @@ namespace FiguresLib
         /// <remarks>При нехватке аргументов или их противоречии возникнет ArgumentException</remarks>
         public Triangle(double a, double b, double c)
         {
-            if (a + b < c || a + c < b || b + c < a)
+            if (a + b <= c || a + c <= b || b + c <= a)
                 throw new ArgumentException("Triangle is not exists");
 
             this.a = a;
@@ -71,10 +71,10 @@ namespace FiguresLib
         /// <exception cref="ArgumentException">Невозможно инициализировать треугольник по заданным аргументам</exception>
         public static Triangle CreateByTwoSidesOneAngle(double a, double b, double abAngle)
         {
-            if (abAngle > Math.PI)
-                abAngle = 2 * Math.PI - abAngle;
+            if (abAngle >= Math.PI)
+                abAngle = abAngle % Math.PI;
 
-            if (abAngle == 0)
+            if (abAngle <= 0)
                 throw new ArgumentException("Triangle is not exists");
 
             var triangle = new Triangle();
@@ -102,13 +102,13 @@ namespace FiguresLib
         /// <exception cref="ArgumentException">Невозможно инициализировать треугольник по заданным аргументам</exception>
         public static Triangle CreateByOneSideTwoAngles(double a, double abAngle, double acAngle)
         {
-            if (abAngle > Math.PI)
-                abAngle = 2 * Math.PI - abAngle;
+            if (abAngle >= Math.PI)
+                abAngle = abAngle % Math.PI;
 
-            if (acAngle > Math.PI)
-                acAngle = 2 * Math.PI - acAngle;
+            if (acAngle >= Math.PI)
+                acAngle = acAngle % Math.PI;
 
-            if (abAngle == 0 || acAngle == 0 || abAngle + acAngle > Math.PI)
+            if (abAngle <= 0 || acAngle <= 0 || abAngle + acAngle > Math.PI)
                 throw new ArgumentException("Triangle is not exists");
 
             var triangle = new Triangle();

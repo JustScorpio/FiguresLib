@@ -38,10 +38,8 @@ namespace FiguresLib
         /// <param name="a">сторона "a"</param>
         /// <param name="b">сторона "b"</param>
         /// <param name="c">сторона "c"</param>
-        /// <param name="abAngle">угол между "a" и "b" в радианах</param>
-        /// <param name="acAngle">угол между "a" и "c" в радианах</param>
-        /// <param name="bcAngle">угол между "b" и "c" в радианах</param>
-        /// <remarks>При нехватке аргументов или их противоречии возникнет ArgumentException</remarks>
+        /// <remarks>При противоречии аргументов возникнет ArgumentException</remarks>
+        /// <exception cref="ArgumentException">Невозможно инициализировать треугольник по заданным аргументам</exception>
         public Triangle(double a, double b, double c)
         {
             if (a + b <= c || a + c <= b || b + c <= a)
